@@ -1,0 +1,17 @@
+svg {
+	fill: #00aeef;
+
+	&.hide {
+		display: block;
+	}
+
+	&.icn {
+		width: 1em;
+		height: 1em;
+		fill: #007eb6;
+	}
+	.icn-stroke {
+		fill: #fff;
+		stroke: $link
+	}
+}

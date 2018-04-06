@@ -1,0 +1,585 @@
+// print
+
+@media print {
+
+  @mixin text-body {
+   font-size: 12pt ;
+   line-height: 1.75 ;
+   padding-top: 4pt;
+   margin-top: 0pt;
+   font-weight:normal;
+ }
+ @mixin text-callout {
+   font-size: 14pt ;
+   line-height: 1.5 ;
+   font-weight: 400;
+   padding: 0;
+   margin: 0;
+ }
+ @mixin hilite-box {
+  @include text-body;
+  display: block;
+  font-style: italic;
+  font-weight: 500;
+  border: 1pt solid #dddddd;
+  padding: 10pt !important;
+  margin: 10pt 0;
+  page-break-inside: avoid;
+}
+@mixin text-legal {
+ font-size: 9pt !important;
+ line-height: 1.5 !important;
+ // font-weight: bold;
+ page-break-inside: auto !important;
+}
+@mixin text-heading {
+ font-size: 16pt !important;
+ line-height: 1.5 !important;
+ font-weight: bold;
+ margin: 24pt 0 0 0 !important;
+ padding: 0 !important;
+ color: $BLUE !important;
+ page-break-after: avoid !important;
+ page-break-before:  !important;
+ // hacks to insure page-break rules
+ position: static !important; 
+ display: inline-block; 
+ box-sizing: content-box !important;
+}
+@mixin series-heading {
+ font-size: 16pt !important;
+ line-height: 1.5 !important;
+ font-weight: bold;
+ // margin: 24pt 0 0 0 !important;
+ padding: 0 !important;
+ color: $BLUE !important;
+ // page-break-after: avoid !important;
+ // page-break-before:  !important;
+ // hacks to insure page-break rules
+ // position: static !important; 
+ // display: inline-block; 
+ box-sizing: content-box !important;
+}
+@mixin chart-heading {
+ font-size: 14pt !important;
+ line-height: 1.5 !important;
+ font-weight: bold;
+ // margin: 20pt 0 0 0 !important;
+ padding: 24pt 0 6pt 0 !important;
+ color: $BLUE;
+}
+@mixin chart-text {
+  font-size: 7.0pt !important;
+  line-height: 1.2;
+  font-weight: normal;
+}
+
+$BLUE : rgb(0, 126, 182);
+
+
+$headStack : 'Source Sans Pro', Helvetica, Clean, sans-serif !important;
+
+$bcLogo : '../IMG/logo-barclays-new.png';
+
+$lightGrey: #dddddd;
+
+* {
+  font-family: Helvetica, Arial, sans-serif;
+  background: none;
+  // color: #666666;
+}
+
+/*the page query, addresses borders and such*/
+
+@page {
+ // margin: 1.25in;
+ margin: .75in;
+ counter-reset: page;
+
+ // @bottom-right {
+   //    content: counter(page);
+   //    font-size: 16pt;
+   //    color: #333333;
+   //    display:inline-block;
+   //    background-color: $lightGrey;
+   //    padding: 20pt;
+   //  }
+ }
+
+ .toc,
+ // .toc__toc,
+ // aside,
+ .popover,
+ .close-popover,
+ // .popover__content,
+ .byline-popover,
+ .chapter-links,
+ .announce,
+ .endnote 
+ // .content__meta-container 
+ {
+  display: none !important;
+}
+
+.content__main-column {
+  box-shadow: none !important;
+}
+
+.content__header.tonal__header {
+ background-image: none !important;
+}
+
+.content__headline {
+ font-weight: bold;
+ font-size: 48pt;
+}
+
+.content__standfirst {
+ font-size: 18pt;
+ font-style: italic;
+}
+
+a, a:visited { 
+ color: #444 !important; 
+ text-decoration: underline; 
+}
+
+tr, img { 
+ page-break-inside: avoid; 
+}
+
+p {
+ page-break-inside: initial;
+}
+
+p, h2, h3 { 
+ orphans: 3; widows: 3; 
+}
+
+h2, h3, h4, h5, h6 { 
+ page-break-after: avoid !important; 
+
+}
+
+/* TODD STYLES */
+
+.figure-header {
+  // page-break-before: auto;
+  @include chart-heading;
+  padding: 30pt 0 6pt 0;
+}
+
+// DOC SPECIFIC STYLES
+.header__sub {
+  // background-color: #dddddd;
+  font-size: 30pt !important;
+  border: none;
+  outline: none;
+  text-decoration:none;
+
+  .asset-class {
+    position: relative;
+    display:block;
+    height: 50pt;
+    padding-bottom: 20pt;
+
+    h1 {
+      position:absolute;
+      display: inline-block;
+      @include series-heading;
+      top: 0;
+      right: 0;
+      text-align:right;
+      padding: 0 !important;
+    }
+
+    date {
+      position:absolute;
+      display: inline-block;
+      @include text-callout;
+      top: 40pt;
+      right: 0;
+      text-align:right;
+    }
+
+    a {
+      display: -webkit-flex; /* Safari */  
+      display: flex;
+      -webkit-align-items: center; /* Safari 7.0+ */
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      height:150pt;
+      width: 300pt;
+
+      svg {
+        width: 100% !important;
+        height: 100% !important;
+        top: 20pt;
+        left: 0;
+        // transform:scale(1.5);
+        fill: #00aeef;
+      }
+    }
+  }
+
+  .main {
+
+    a {
+      display:none;
+    }
+
+    h1 {
+      font-family: $headStack;
+      font-weight: normal;
+
+      &.series {
+          // font-size: 16pt !important;
+          @include text-callout;
+        }
+
+        &.headline {
+          font-size: 32pt;
+          line-height: 1.2;
+          margin: 0pt 0 0 0;
+          padding:0 ;
+          font-weight: lighter !important;
+
+        }
+
+      }
+
+      .lede {
+        font-size: 18pt !important;
+        line-height: 1.2;
+        font-weight: lighter;
+        margin: 6pt 0 20pt 0 !important;
+        padding: 0 !important;
+      }
+
+    }
+
+  }
+
+  // /* THIS STYLE EXISTS IN MULTIPLE CONTEXTS */
+  // aside, .quick-take {
+  //   @include hilite-box;
+  // }
+
+
+
+  .content__article-body {
+
+    .content__meta-container.main {
+      position: relative;
+      top: 0;
+      // margin-left: -12rem;
+      width: 100%;
+      // display: flex;
+      // flex-direction: column;
+      // align-items: flex-start;
+
+      h4 {
+        // page-break-before: avoid !important;
+      }
+
+      .byline-sm.byline {
+        display:none;
+      }
+      .byline-lg.byline {
+        display: block;
+        border-top: 1pt solid $lightGrey;
+        border-bottom: 1pt solid $lightGrey;
+        width: inherit;
+        padding: 10pt 0 0;
+
+        ul {
+          list-style: none;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          padding: 0;
+
+          li {
+            width: 39%;
+            padding: 0pt 5%;
+            margin: 6pt 0;
+            background-color: #ffffff;
+            border-left: 2pt solid $BLUE;
+
+            a {
+              text-decoration: none;
+              underline: none;
+              outline: none;
+
+              .analyst-photo {
+                display: none;
+              }
+              .analyst-deets {
+                font-weight: bold;
+                line-height: 1.2;
+                padding: 0;
+
+                span {
+                  display: block;
+                  width: 90%;
+
+                  &[itemprop="name"] {
+                    color: $BLUE;
+                  }
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+
+      }
+
+      
+    }
+
+    .content__meta-container.sub {
+      display: none;
+
+    }
+
+
+    a[href^="#0"] {
+      display: none;
+    }
+
+
+
+    svg {
+      display: none;
+    }
+
+    sup {
+      color: $BLUE;
+    }
+    .footnote-item {
+      @include hilite-box;
+      background-color: lighten($BLUE, 60%);
+      border: none !important;
+    }
+
+    img {
+      page-break-before:avoid;
+    }
+
+    h3 {
+      @include text-heading;
+
+      &.figure-header {
+        @include chart-heading;
+      }
+
+    }
+    h4 {
+      page-break-before: auto !important; /* THIS COULD BE DANGEROUS */
+      @include text-heading;
+    }
+    h5 {
+      @include text-heading;
+    }
+    h6 {
+      @include text-heading;
+    }
+
+
+
+    p {
+      @include text-body;
+
+      b {
+        // color: $BLUE;
+      }
+
+      &.caption {
+        // CHART CAPTIONS
+        @include text-legal;
+        margin-bottom: 20pt !important;
+      }
+
+    }
+
+
+    /* THIS STYLE EXISTS IN MULTIPLE CONTEXTS */
+    blockquote {
+      @include text-callout;
+      display: block;
+      padding: 10pt 40pt !important; 
+      margin: 10pt 0 !important; 
+      text-align: center;
+      color: $BLUE;
+      page-break-inside:avoid;
+
+      .attribution {
+        font-style: italic;
+      }
+    }
+
+    /* THIS STYLE EXISTS IN MULTIPLE CONTEXTS */
+    ul:not(.popover-credentials) {
+      page-break-after: auto;
+      @include text-body;
+      list-style-type: disc;
+      padding: 0pt 0 30pt 10pt;
+
+      &.icon-list.byline {
+        display: none;
+
+        li {
+          display: none;
+
+          a {
+            cursor: pointer;
+            text-decoration: none;
+
+            img {
+              display: none;
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+
+      }
+    }
+
+    aside, .quick-take {
+      @include hilite-box;
+      border: 1pt solid #999;
+      border-bottom: 1pt solid #999;
+      page-break-inside: avoid;
+
+      h4 {
+        padding: 0 !important;
+        margin: 0 !important;
+        text-decoration: none;
+        font-style: normal ! important;
+      }
+      p {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+    }
+
+
+    .popover__content {
+
+      div {
+        color: $BLUE;
+      }
+
+      ul {
+        padding: 0;
+        margin: 0;
+
+        li {
+
+          display: inline-block;
+          padding: 0 10pt 10pt 0;
+
+          a{
+            text-decoration: none;
+            underline: none;
+            font-weight: bold;
+          }
+        }
+      }
+
+    }
+
+    /* DATA TABLE STYLING */
+    .table-container {
+      display: block;
+      page-break-before: auto;
+      page-break-after: auto;
+      padding: 30pt 0 !important;
+      overflow: hidden;
+
+      table {
+        padding: 0 !important;
+        border-spacing: 0 !important;
+      }
+
+      td, th {
+        @include chart-text;
+        border: 1pt solid #dddddd;
+        padding: 4pt 0;
+
+      }
+      
+      th {
+        font-weight: bold;
+        color: $BLUE;
+      }
+
+      img {
+        display: none;
+      }
+    }
+
+    /* 2-UP CHART FIGURE AND IMAGES */
+    .side-by-side-container {
+      display: block;
+      margin: 20px 0;
+      width: 100%;
+      border: 1pt solid #dddddd;
+      padding-top: 0 !important;
+      page-break-inside: avoid !important;
+
+      .sidebyside {
+        display: inline-block;
+        width: 46% ;
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+
+        h3 {
+          z-index: 5;
+        }
+
+
+        &.first {
+          padding-right: 5% !important;
+          padding-left: 2% !important;
+        }
+        &:last-of-type {
+
+        }
+      }
+    }
+
+    .chapter-links {
+      display: none;
+    }
+
+  }
+
+  .certification, .disclosures, .certifications-disclosures {
+    @include text-legal;
+
+    p {
+      @include text-legal;
+
+    }
+    a {
+      color: $BLUE !important;
+      font-weight: bold;
+      text-decoration:none;
+
+      &:after{
+        content:" (" attr(href) ") ";
+        font-weight:normal;
+        text-decoration: underline;
+      }
+    }
+  }
+
+}
